@@ -19,6 +19,14 @@ public class PicUtils {
     private static final String PNG_1_PATH = "./data/assets/halo.png";
     private static final String PNG_2_PATH = "./data/assets/cross.png";
 
+    /**
+     * generate BA style logo
+     * code by ChatGPT,edited by grasspow
+     * @param left
+     * @param right
+     * @param down
+     * @return
+     */
     public static Optional<String> genBALogo(String left, String right, @Nullable String down) {
 //        int width = 900; // 图片宽度
         int width = 50 * (left.length() + right.length() + 4); // 图片宽度
@@ -111,7 +119,7 @@ public class PicUtils {
         g2d.dispose();
         // 将图像保存到文件
         try {
-            File output = new File("./data/tmp/BA" + System.currentTimeMillis() + ".png");
+            File output = new File("./data/tmp/ba/" + System.currentTimeMillis() + ".png");
             ImageIO.write(image, "jpg", output);
             return Optional.ofNullable(convertImageToBase64Str(output));
         } catch (Exception e) {
