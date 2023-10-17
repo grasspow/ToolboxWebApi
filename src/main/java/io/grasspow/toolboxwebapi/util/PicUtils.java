@@ -29,9 +29,9 @@ public class PicUtils {
      */
     public static Optional<String> genBALogo(String left, String right, @Nullable String down) {
 //        int width = 900; // 图片宽度
-        int width = 50 * (left.length() + right.length() + 4); // 图片宽度
+        int width = 60 * (left.length() + right.length() + 4); // 图片宽度
         int height = 250; // 图片高度
-        int offset = 50 * left.length() + 100;
+        int offset = 60 * left.length() + 70;
         // 创建一个新的BufferedImage对象
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         // 获取Graphics2D对象，用于绘制图像
@@ -119,7 +119,10 @@ public class PicUtils {
         g2d.dispose();
         // 将图像保存到文件
         try {
-            File output = new File("./data/tmp/ba/" + System.currentTimeMillis() + ".png");
+            File output = new File("./data/tmp/ba" + System.currentTimeMillis() + ".png");
+            if (!output.exists()){
+                output.createNewFile();
+            }
             ImageIO.write(image, "jpg", output);
             return Optional.ofNullable(convertImageToBase64Str(output));
         } catch (Exception e) {
