@@ -31,7 +31,6 @@ public class PicUtils {
 //        int width = 900; // 图片宽度
         int width = 60 * (left.length() + right.length() + 4); // 图片宽度
         int height = 250; // 图片高度
-        int offset = 60 * left.length() + 70;
         // 创建一个新的BufferedImage对象
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         // 获取Graphics2D对象，用于绘制图像
@@ -58,41 +57,42 @@ public class PicUtils {
         g2d.setColor(new Color(0x128afa));
         // 绘制str1
         int str1Width = g2d.getFontMetrics(font1).stringWidth(left);
-        int x1 = offset - str1Width; // 文本1右上角的x坐标
-        int y1 = 173; // 文本1右上角的y坐标
+        int strWidth = g2d.getFontMetrics(font1).stringWidth(left+right);
+        int x1 = width/2 - strWidth/2 - 5; // 文本1左上角的x坐标
+        int x2 = x1 + str1Width; // 文本2左上角的x坐标
+        int x3 = x2 + 55;
+        int y = 173; // 文本1右上角的y坐标
         g2d.setFont(font1);
         // 添加白色边框
         g2d.setStroke(new BasicStroke(10f));
         FontRenderContext frc = g2d.getFontRenderContext();
         GlyphVector gv = font1.createGlyphVector(frc, left);
-        Shape outline = gv.getOutline(x1, y1);
+        Shape outline = gv.getOutline(x1, y);
         g2d.setColor(Color.WHITE);
         g2d.draw(outline);
         g2d.setColor(new Color(0x128afa));
         g2d.fill(outline);
         // 绘制缩小后的png1
         try {
-            drawBASubPic(offset, height, g2d, PNG_1_PATH);
+            drawBASubPic(x3, height, g2d, PNG_1_PATH);
         } catch (Exception e) {
             return Optional.empty();
         }
         // 设置文本颜色
         g2d.setColor(Color.BLACK);
         // 绘制str2
-        int x2 = offset; // 文本2左上角的x坐标
-        int y2 = 173; // 文本2左上角的y坐标
         g2d.setFont(font2);
         // 添加白色边框
         g2d.setStroke(new BasicStroke(10f));
         gv = font2.createGlyphVector(frc, right);
-        outline = gv.getOutline(x2, y2);
+        outline = gv.getOutline(x2, y);
         g2d.setColor(Color.WHITE);
         g2d.draw(outline);
         g2d.setColor(Color.BLACK);
         g2d.fill(outline);
         // 绘制缩小后的png2
         try {
-            drawBASubPic(offset, height, g2d, PNG_2_PATH);
+            drawBASubPic(x3, height, g2d, PNG_2_PATH);
         } catch (Exception e) {
             return Optional.empty();
         }
@@ -100,8 +100,8 @@ public class PicUtils {
             // 设置文本颜色
             g2d.setColor(Color.BLACK);
             // 绘制str2
-            x2 = offset + 20; // 文本2左上角的x坐标
-            y2 = 205; // 文本2左上角的y坐标
+            x2 = x2 + 20; // 文本2左上角的x坐标
+            int y2 = 205; // 文本2左上角的y坐标
             Font font3 = font.deriveFont(Font.ITALIC, 20);
             transform.shear(-0.4, 0);
             font3 = font3.deriveFont(transform);
@@ -139,7 +139,7 @@ public class PicUtils {
         Graphics2D png2G2d = png2.createGraphics();
         png2G2d.drawImage(scaledPng2, 0, 0, null);
         png2G2d.dispose();
-        int png2X = width - newPng2Width/ 2 + 55; // png2中心的x坐标
+        int png2X = width - newPng2Width/ 2; // png2中心的x坐标
         int png2Y = (height - newPng2Height) / 2; // png2中心的y坐标
         g2d.drawImage(png2, png2X, png2Y, null);
     }

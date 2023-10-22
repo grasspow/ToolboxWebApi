@@ -16,5 +16,4 @@ public class PicController {
         Optional<String> optionalFile = PicUtils.genBALogo(left,right,down);
         return optionalFile.map(img -> DataMsg.success("success", img)).orElseGet(() -> DataMsg.error_500("fail", null));
     }
-
 }
